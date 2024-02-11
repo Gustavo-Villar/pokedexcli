@@ -1,0 +1,30 @@
+.
+├── 📄─ command_pokedex.go
+├── 📄─ command_explore.go
+├── 📄─ command_help.go
+├── 📄─ command_catch.go
+├── 📄─ command_exit.go
+├── 📁─ internal
+│   ├── 📁─ pokecache
+│   │   ├── 📄─ pokecache.go
+│   │   └── 📄─ pokecache_test.go
+│   └── 📁─ pokeapi
+│       ├── 📄─ pokeapi.go
+│       ├── 📄─ pokemon_req.go
+│       ├── 📄─ location_area_req.go
+│       ├── 📄─ types_pokemon.go
+│       └── 📄─ types_location_area.go
+├── 📄─ go.mod
+├── 📄─ pokedexcli-tree.txt
+├── 📄─ repl_test.go
+├── 📄─ .gitignore
+├── 📄─ command_inspect.go
+├── 📁─ .github
+│   └── 📁─ workflows
+│       └── 📄─ go.yml
+├── 📄─ pokedexcli
+├── 📄─ repl.go
+├── 📄─ pokedexcli.gif
+├── 📄─ README.md
+├── 📄─ command_map.go
+└── 📄─ main.go
