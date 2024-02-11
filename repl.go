@@ -1,3 +1,5 @@
+// Package main includes the REPL (Read-Eval-Print Loop) functionality for the Pokedex CLI application.
+// It provides an interactive command-line interface for users to explore and interact with the Pokemon universe.
 package main
 
 import (
@@ -7,12 +9,16 @@ import (
 	"strings"
 )
 
+// cliCommand struct defines a CLI command within the Pokedex application.
+// It includes the command name, a description, and a callback function that executes the command.
 type cliCommand struct {
-	name        string
-	description string
-	callback    func(*config, ...string) error
+	name        string                         // Name of the command.
+	description string                         // Description of what the command does.
+	callback    func(*config, ...string) error // Callback function to execute when the command is invoked.
 }
 
+// getCommands returns a map of available CLI commands by their name.
+// Each command is associated with its functionality, including help, exit, map navigation, exploration, catching, and inspecting Pokemon.
 func getCommands() map[string]cliCommand {
 	return map[string]cliCommand{
 		"help": {
@@ -58,50 +64,49 @@ func getCommands() map[string]cliCommand {
 	}
 }
 
-func startRelp(cfg *config) string {
-	// Creates the input variable
-	var input string = ""
+// startRelp starts the Read-Eval-Print Loop (REPL) for the Pokedex CLI application.
+// It continuously reads user input, executes commands, and prints outputs until the exit command is invoked.
+func startRelp(cfg *config) {
+	// Initializes the command input loop.
+	var input string
 
-	// Creates a new scanner
+	// Creates a new scanner to read input from standard input.
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
-		// Gets the input from the user
-		fmt.Print(">_: ")      // For Aesthetics only
-		scanner.Scan()         // Scans the input
-		input = scanner.Text() // Gets the text fom the input
+		fmt.Print(">_: ")      // Prints a prompt for user input.
+		scanner.Scan()         // Reads the next line of input.
+		input = scanner.Text() // Retrieves the text from the scanner.
 
-		cleanedInput := cleanInput(input)
+		cleanedInput := cleanInput(input) // Cleans and parses the input into a slice of strings.
 
-		// Verifies if the user input is empty
+		// Skips processing if the input is empty.
 		if len(cleanedInput) == 0 {
 			continue
 		}
-		commandName := cleanedInput[0]
-		args := []string{}
-		if len(cleanedInput) > 1 {
-			args = cleanedInput[1:]
-		}
 
-		avaiableCommands := getCommands()
+		// Separates the command name and arguments from the cleaned input.
+		commandName, args := cleanedInput[0], cleanedInput[1:]
 
-		command, ok := avaiableCommands[commandName]
-		if !ok {
-			fmt.Println("Invalid Command")
-			continue
+		// Retrieves the map of available commands.
+		availableCommands := getCommands()
 
-		}
-		err := command.callback(cfg, args...)
-		if err != nil {
-			fmt.Println(err)
+		// Executes the command if it exists.
+		if command, ok := availableCommands[commandName]; ok {
+			err := command.callback(cfg, args...)
+			if err != nil {
+				fmt.Println(err) // Prints any errors returned by the command.
+			}
+		} else {
+			fmt.Println("Invalid Command") // Notifies the user of invalid commands.
 		}
 	}
-
 }
 
+// cleanInput takes a string input and returns a slice of strings representing the cleaned and lowercased input split into words.
 func cleanInput(str string) []string {
-	loweredString := strings.ToLower(str)
-	words := strings.Fields(loweredString)
+	loweredString := strings.ToLower(str)  // Converts the input string to lowercase.
+	words := strings.Fields(loweredString) // Splits the string into a slice of words.
 
 	return words
 }

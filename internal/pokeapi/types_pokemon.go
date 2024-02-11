@@ -1,6 +1,8 @@
+// Package pokeapi defines structures for interacting with the PokeAPI, particularly focusing on the Pokemon data structure.
 package pokeapi
 
 type Pokemon struct {
+	// Abilities represents a list of abilities this Pokemon can possess, including hidden abilities and their slots.
 	Abilities []struct {
 		Ability struct {
 			Name string `json:"name"`
